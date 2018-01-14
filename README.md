@@ -2,4 +2,4 @@
 
 ## Screenshots
 
-![Cloud Jumper mockup](https://raw.github.com/julianmaster/CloudJumper/master/readme-media/CloudJumperMockup.png)
+![Cloud Jumper mockup](readme-media/CloudJumperMockup.png)
