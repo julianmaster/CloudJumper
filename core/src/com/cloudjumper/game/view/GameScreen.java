@@ -1,5 +1,7 @@
 package com.cloudjumper.game.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +16,8 @@ public class GameScreen extends ScreenAdapter {
 	private final CloudJumper game;
 
 	private World world = new World(new Vector2(0, -9.8f), true);
+
+	private boolean showDebugPhysics = true;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
 	public GameScreen(CloudJumper game) {
@@ -29,11 +33,17 @@ public class GameScreen extends ScreenAdapter {
 	public void render(float delta) {
 		Batch batch = game.getBatch();
 
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
+			showDebugPhysics = !showDebugPhysics;
+		}
+
 		batch.begin();
 		//batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
 		batch.end();
 
-		debugRenderer.render(world, game.getCam().combined.scl(Constants.PPM));
+		if(showDebugPhysics) {
+			debugRenderer.render(world, game.getCam().combined.scl(Constants.PPM));
+		}
 
 		world.step(1/60f, 6, 2);
 	}
