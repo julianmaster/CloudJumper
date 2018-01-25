@@ -14,7 +14,7 @@ import com.cloudjumper.game.utils.AudioManager;
 import com.cloudjumper.game.utils.TextureManager;
 import com.cloudjumper.game.view.GameScreen;
 
-public class CloudJumper extends Game {
+public class 	CloudJumper extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
 
