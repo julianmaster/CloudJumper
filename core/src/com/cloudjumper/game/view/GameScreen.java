@@ -8,12 +8,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
 import com.cloudjumper.game.Constants;
 import com.cloudjumper.game.model.EntityManager;
-import com.cloudjumper.game.utils.TextureManager;
 
 public class GameScreen extends ScreenAdapter {
 	private final CloudJumper game;
 
-	private World world = new World(new Vector2(0, -9.8f), true);
+	private World world ;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
 	public GameScreen(CloudJumper game) {
@@ -22,6 +21,7 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
+		world = new World(new Vector2(0, -9.8f), false);
 		EntityManager.createPlayer(world);
 	}
 

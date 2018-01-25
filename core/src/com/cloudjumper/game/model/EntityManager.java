@@ -17,7 +17,6 @@ public class EntityManager {
 		Body body = world.createBody(bodyDef);
 
 		PolygonShape shape = new PolygonShape();
-//		shape.setAsBox(5 / 2, 8 / 2);
 		shape.setAsBox(5 / 2 / Constants.PPM, 8 / 2 / Constants.PPM);
 
 		body.createFixture(shape, 1.0f);
