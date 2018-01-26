@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
@@ -19,6 +20,9 @@ public class GameScreen extends ScreenAdapter {
 	private boolean showDebugPhysics = true;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
+	private Body player;
+	private Body platform;
+
 	public GameScreen(CloudJumper game) {
 		this.game = game;
 	}
@@ -26,7 +30,8 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		world = new World(new Vector2(0, -9.8f), false);
-		EntityManager.createPlayer(world);
+		player = EntityManager.createBox(64, 64, 5, 8, false, world);
+		platform = EntityManager.createBox(64, 16, 16*6, 16, true, world);
 	}
 
 	@Override
