@@ -33,6 +33,10 @@ public class CloudJumper extends Game {
 
 	private void load() {
 		TextureManager.load(Gdx.files.internal("background.png"));
+		TextureManager.load(Gdx.files.internal("cloudleft.png"));
+		TextureManager.load(Gdx.files.internal("cloudmiddle1.png"));
+		TextureManager.load(Gdx.files.internal("cloudmiddle2.png"));
+		TextureManager.load(Gdx.files.internal("cloudright.png"));
 	}
 
 	@Override

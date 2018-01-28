@@ -8,14 +8,6 @@ import com.cloudjumper.game.Constants;
 
 public class EntityManager {
 
-	public static Body createPlayer(World world) {
-		return null;
-	}
-
-	public static Body createPlatform(World world) {
-		return null;
-	}
-
 	public static Body createBox(int x, int y, int width, int height, boolean isStatic, World world) {
 		BodyDef bodyDef = new BodyDef();
 		if(isStatic) {

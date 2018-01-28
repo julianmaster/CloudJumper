@@ -10,12 +10,15 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
 import com.cloudjumper.game.Constants;
-import com.cloudjumper.game.model.EntityManager;
+import com.cloudjumper.game.model.Level;
+import com.cloudjumper.game.model.LevelGenerator;
+import com.cloudjumper.game.utils.TextureManager;
 
 public class GameScreen extends ScreenAdapter {
 	private final CloudJumper game;
 
-	private World world ;
+	private Level level;
+	private World world;
 
 	private boolean showDebugPhysics = true;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
@@ -30,8 +33,9 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		world = new World(new Vector2(0, -9.8f), false);
-		player = EntityManager.createBox(64, 64, 5, 8, false, world);
-		platform = EntityManager.createBox(64, 16, 16*6, 16, true, world);
+//		player = EntityManager.createBox(64, 64, 5, 8, false, world);
+//		platform = EntityManager.createBox(64, 16, 16*6, 16, true, world);
+		level = LevelGenerator.generateLevel(world);
 	}
 
 	@Override
@@ -41,9 +45,26 @@ public class GameScreen extends ScreenAdapter {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
 			showDebugPhysics = !showDebugPhysics;
 		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
+			for(Body[] lines : level.getClouds()) {
+				for(Body cloud : lines) {
+					if(cloud != null) {
+						world.destroyBody(cloud);
+					}
+				}
+			}
+			level = LevelGenerator.generateLevel(world);
+		}
 
 		batch.begin();
-		//batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
+//		batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
+		for(Body[] lines : level.getClouds()) {
+			for(Body cloud : lines) {
+				if(cloud != null) {
+					batch.draw(TextureManager.getTexture(Assets.CLOUD_MIDDLE_1.ordinal()), cloud.getPosition().x, cloud.getPosition().y);
+				}
+			}
+		}
 		batch.end();
 
 		if(showDebugPhysics) {

@@ -6,5 +6,7 @@ public class Constants {
 	public static final int WINDOW_WIDTH = CAMERA_WIDTH * 4;
 	public static final int WINDOW_HEIGHT = CAMERA_HEIGHT * 4;
 
+	public static final int TILE_SIZE = 16;
+
 	public static final float PPM = 16;
 }
