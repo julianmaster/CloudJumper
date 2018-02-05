@@ -4,13 +4,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class Level {
 
-	private Body[][] clouds;
+	private Cloud[][] clouds;
 
-	public Level(Body[][] clouds) {
+	public Level(Cloud[][] clouds) {
 		this.clouds = clouds;
 	}
 
-	public Body[][] getClouds() {
+	public Cloud[][] getClouds() {
 		return clouds;
 	}
 }

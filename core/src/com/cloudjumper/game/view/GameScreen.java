@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
 import com.cloudjumper.game.Constants;
+import com.cloudjumper.game.model.Cloud;
 import com.cloudjumper.game.model.Level;
 import com.cloudjumper.game.model.LevelGenerator;
 import com.cloudjumper.game.utils.TextureManager;
@@ -20,7 +22,7 @@ public class GameScreen extends ScreenAdapter {
 	private Level level;
 	private World world;
 
-	private boolean showDebugPhysics = true;
+	private boolean showDebugPhysics = false;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
 	private Body player;
@@ -46,10 +48,10 @@ public class GameScreen extends ScreenAdapter {
 			showDebugPhysics = !showDebugPhysics;
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
-			for(Body[] lines : level.getClouds()) {
-				for(Body cloud : lines) {
+			for(Cloud[] lines : level.getClouds()) {
+				for(Cloud cloud : lines) {
 					if(cloud != null) {
-						world.destroyBody(cloud);
+						world.destroyBody(cloud.getBody());
 					}
 				}
 			}
@@ -57,11 +59,13 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		batch.begin();
-//		batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
-		for(Body[] lines : level.getClouds()) {
-			for(Body cloud : lines) {
+		batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
+		for(Cloud[] lines : level.getClouds()) {
+			for(Cloud cloud : lines) {
 				if(cloud != null) {
-					batch.draw(TextureManager.getTexture(Assets.CLOUD_MIDDLE_1.ordinal()), cloud.getPosition().x, cloud.getPosition().y);
+					TextureRegion textureRegion = TextureManager.getTexture(cloud.getAsset().ordinal());
+					Vector2 position = cloud.getBody().getPosition();
+					batch.draw(textureRegion, position.x * Constants.PPM - textureRegion.getRegionWidth()/2, position.y * Constants.PPM - textureRegion.getRegionHeight()/2);
 				}
 			}
 		}

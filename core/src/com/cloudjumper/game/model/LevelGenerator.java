@@ -3,6 +3,7 @@ package com.cloudjumper.game.model;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.Constants;
+import com.cloudjumper.game.view.Assets;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class LevelGenerator {
 	private static Random rand = new Random();
 
 	public static Level generateLevel(World world) {
-		Body[][] clouds = new Body[8][8];
+		Cloud[][] clouds = new Cloud[8][8];
 
 		for(int y = clouds.length - 2; y >= 0; y--) {
 			for(int x = 0; x < clouds.length - 2; x++) {
@@ -21,8 +22,17 @@ public class LevelGenerator {
 
 					Body[] cloud = generateCloud(x, y, length, world);
 					for(int index = 0; index < cloud.length; index++) {
-						clouds[y][x+index] = cloud[index];
+						if(index == 0) {
+							clouds[y][x+index] = new Cloud(cloud[index], Assets.CLOUD_LEFT);
+						}
+						else if(index == cloud.length - 1) {
+							clouds[y][x+index] = new Cloud(cloud[index],rand.nextBoolean() ? Assets.CLOUD_RIGHT_1 : Assets.CLOUD_RIGHT_2);
+						}
+						else {
+							clouds[y][x+index] = new Cloud(cloud[index], rand.nextBoolean() ? Assets.CLOUD_MIDDLE_1 : Assets.CLOUD_MIDDLE_2);
+						}
 					}
+
 					x += length+2;
 				}
 			}
