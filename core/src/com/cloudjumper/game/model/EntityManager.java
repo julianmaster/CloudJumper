@@ -10,12 +10,7 @@ public class EntityManager {
 
 	public static Body createBox(int x, int y, int width, int height, boolean isStatic, World world) {
 		BodyDef bodyDef = new BodyDef();
-		if(isStatic) {
-			bodyDef.type = BodyDef.BodyType.KinematicBody;
-		}
-		else {
-			bodyDef.type = BodyDef.BodyType.DynamicBody;
-		}
+		bodyDef.type = isStatic ? BodyDef.BodyType.KinematicBody : BodyDef.BodyType.DynamicBody;
 		bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
 		bodyDef.fixedRotation = true;
 
