@@ -1,22 +1,10 @@
 package com.cloudjumper.game.model;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.cloudjumper.game.view.Assets;
 
-public class Entity {
-	private Body body;
-	private Assets asset;
+public abstract class Entity {
 
-	public Entity(Body body, Assets asset) {
-		this.body = body;
-		this.asset = asset;
-	}
-
-	public Assets getAsset() {
-		return asset;
-	}
-
-	public Body getBody() {
-		return body;
-	}
+	public abstract void render(float delta, Batch batch);
 }

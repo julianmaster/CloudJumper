@@ -2,13 +2,21 @@ package com.cloudjumper.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.cloudjumper.game.utils.TextureManager;
 import com.cloudjumper.game.view.Assets;
 
 public class Player extends Entity {
 
+	private Body body;
+	private Assets asset;
+
 	public Player(Body body, Assets asset) {
-		super(body, asset);
+		this.body = body;
+		this.asset = asset;
 	}
 
 	public void inputUpdate(float delta) {
@@ -22,9 +30,20 @@ public class Player extends Entity {
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-			getBody().applyForceToCenter(0, 50, false);
+			body.applyForceToCenter(0, 50, false);
 		}
 
-		getBody().setLinearVelocity(horizontalForce * 3, getBody().getLinearVelocity().y);
+		body.setLinearVelocity(horizontalForce * 3, body.getLinearVelocity().y);
+	}
+
+	@Override
+	public void render(float delta, Batch batch) {
+		Rectangle shape = (Rectangle)body.getUserData();
+
+		batch.draw(TextureManager.getTexture(asset.ordinal()), shape.x, shape.y);
+	}
+
+	public Body getBody() {
+		return body;
 	}
 }

@@ -1,16 +1,15 @@
 package com.cloudjumper.game.model;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import java.util.List;
 
 public class Level {
+	private List<Cloud> clouds;
 
-	private Cloud[][] clouds;
-
-	public Level(Cloud[][] clouds) {
+	public Level(List<Cloud> clouds) {
 		this.clouds = clouds;
 	}
 
-	public Cloud[][] getClouds() {
+	public List<Cloud> getClouds() {
 		return clouds;
 	}
 }

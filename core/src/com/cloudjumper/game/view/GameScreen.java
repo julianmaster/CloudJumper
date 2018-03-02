@@ -18,6 +18,7 @@ public class GameScreen extends ScreenAdapter {
 	private final CloudJumper game;
 
 	private Level level;
+	// Box2D
 	private World world;
 
 	private boolean showDebugPhysics = true;
@@ -45,12 +46,8 @@ public class GameScreen extends ScreenAdapter {
 			showDebugPhysics = !showDebugPhysics;
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
-			for(Cloud[] lines : level.getClouds()) {
-				for(Cloud cloud : lines) {
-					if(cloud != null) {
-						world.destroyBody(cloud.getBody());
-					}
-				}
+			for(Cloud cloud : level.getClouds()) {
+				world.destroyBody(cloud.getBody());
 			}
 			level = LevelGenerator.generateLevel(world);
 		}
@@ -64,14 +61,8 @@ public class GameScreen extends ScreenAdapter {
 		if(showBackground) {
 			batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
 		}
-		for(Cloud[] lines : level.getClouds()) {
-			for(Cloud cloud : lines) {
-				if(cloud != null) {
-					TextureRegion textureRegion = TextureManager.getTexture(cloud.getAsset().ordinal());
-					Vector2 position = cloud.getBody().getPosition();
-					batch.draw(textureRegion, position.x * Constants.PPM - textureRegion.getRegionWidth()/2, position.y * Constants.PPM - textureRegion.getRegionHeight()/2);
-				}
-			}
+		for(Cloud cloud : level.getClouds()) {
+			cloud.render(delta, batch);
 		}
 		batch.end();
 
