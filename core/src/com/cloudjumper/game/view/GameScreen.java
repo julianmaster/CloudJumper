@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
 	public void show() {
 		world = new World(new Vector2(0, -9.8f), false);
 		player = new Player(EntityManager.createBox(64, 64, 5, 8, false, world), null);
-		level = LevelGenerator.generateLevel(world);
+		level = LevelGenerator.generateLevel(world, player);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
 			for(Cloud cloud : level.getClouds()) {
 				world.destroyBody(cloud.getBody());
 			}
-			level = LevelGenerator.generateLevel(world);
+			level = LevelGenerator.generateLevel(world, player);
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
 			showBackground = !showBackground;
