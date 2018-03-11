@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
@@ -22,7 +20,7 @@ public class GameScreen extends ScreenAdapter {
 	private World world;
 
 	private boolean showDebugPhysics = true;
-	private boolean showBackground = true;
+	private boolean showSprite = true;
 	private Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
 	private Player player;
@@ -52,17 +50,17 @@ public class GameScreen extends ScreenAdapter {
 			level = LevelGenerator.generateLevel(world, player);
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
-			showBackground = !showBackground;
+			showSprite = !showSprite;
 		}
 
 		player.inputUpdate(delta);
 
 		batch.begin();
-		if(showBackground) {
+		if(showSprite) {
 			batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
-		}
-		for(Cloud cloud : level.getClouds()) {
-			cloud.render(delta, batch);
+			for(Cloud cloud : level.getClouds()) {
+				cloud.render(delta, batch);
+			}
 		}
 		batch.end();
 

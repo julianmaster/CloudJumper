@@ -60,7 +60,10 @@ public class LevelGenerator {
 				width * Constants.TILE_SIZE - Constants.LEFT_OFFSET_CLOUD - Constants.RIGHT_OFFSET_CLOUD,
 				Constants.TILE_SIZE - Constants.TOP_OFFSET_CLOUD - Constants.BOTTOM_OFFSET_CLOUD, true, world);
 
-		cloudBody.setUserData(new Rectangle(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, width * Constants.TILE_SIZE, Constants.TILE_SIZE));
+		Rectangle cloudBoundingBox = new Rectangle(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, width * Constants.TILE_SIZE, Constants.TILE_SIZE);
+		cloudBody.setUserData(cloudBoundingBox);
+
+		Rectangle playerBoundingBox = (Rectangle)cloudBody.getUserData();
 
 		world.setContactFilter(new ContactFilter() {
 			@Override
@@ -70,10 +73,10 @@ public class LevelGenerator {
 				player.getBody().getFixtureList().first();
 				if ((fixtureA == platformFixture && fixtureB == playerFixture) || (fixtureB == platformFixture && fixtureA == playerFixture)) {
 					Vector2 position = player.getBody().getPosition();
-//					if (position.y < m_top + m_radius - 3.0f * 0.005f)
+					if (position.y < cloudBoundingBox.y + cloudBoundingBox.height/2 + playerBoundingBox.height - 3.0f * 0.005f)
 						return false;
-//					else
-//						return true;
+					else
+						return true;
 				} else
 					return true;
 			}

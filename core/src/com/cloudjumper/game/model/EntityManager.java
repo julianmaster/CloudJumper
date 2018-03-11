@@ -1,5 +1,6 @@
 package com.cloudjumper.game.model;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -22,6 +23,8 @@ public class EntityManager {
 		body.createFixture(shape, 1.0f);
 
 		shape.dispose();
+
+		body.setUserData(new Rectangle(x - width/2, y - height/2, width, height));
 
 		return body;
 	}
