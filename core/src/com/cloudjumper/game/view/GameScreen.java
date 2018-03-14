@@ -3,6 +3,8 @@ package com.cloudjumper.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.cloudjumper.game.CloudJumper;
 import com.cloudjumper.game.Constants;
 import com.cloudjumper.game.model.*;
-import com.cloudjumper.game.utils.TextureManager;
 
 public class GameScreen extends ScreenAdapter {
 	private final CloudJumper game;
@@ -78,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		Batch batch = game.getBatch();
+		AssetManager manager = game.getManager();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
 			showDebugPhysics = !showDebugPhysics;
@@ -96,9 +98,9 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.begin();
 		if(showSprite) {
-			batch.draw(TextureManager.getTexture(Assets.BACKGROUND.ordinal()), 0, 0);
+			batch.draw(manager.get(Assets.BACKGROUND.filename, Texture.class), 0, 0);
 			for(Cloud cloud : level.getClouds()) {
-				cloud.render(delta, batch);
+				cloud.render(delta, batch, manager);
 			}
 		}
 		batch.end();

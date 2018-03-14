@@ -1,6 +1,5 @@
 package com.cloudjumper.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -8,20 +7,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.cloudjumper.game.utils.AnimationManager;
 import com.cloudjumper.game.utils.AudioManager;
-import com.cloudjumper.game.utils.TextureManager;
+import com.cloudjumper.game.view.Assets;
 import com.cloudjumper.game.view.GameScreen;
 
 public class CloudJumper extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
+	private AssetManager manager;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		cam = new OrthographicCamera(Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
+		manager = new AssetManager();
 
 		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0f);
 		cam.update();
@@ -32,12 +32,13 @@ public class CloudJumper extends Game {
 	}
 
 	private void load() {
-		TextureManager.load(Gdx.files.internal("background.png"));
-		TextureManager.load(Gdx.files.internal("cloudleft.png"));
-		TextureManager.load(Gdx.files.internal("cloudmiddle1.png"));
-		TextureManager.load(Gdx.files.internal("cloudmiddle2.png"));
-		TextureManager.load(Gdx.files.internal("cloudright1.png"));
-		TextureManager.load(Gdx.files.internal("cloudright2.png"));
+		manager.load(Assets.BACKGROUND.filename, Texture.class);
+		manager.load(Assets.CLOUD_LEFT.filename, Texture.class);
+		manager.load(Assets.CLOUD_MIDDLE_1.filename, Texture.class);
+		manager.load(Assets.CLOUD_MIDDLE_2.filename, Texture.class);
+		manager.load(Assets.CLOUD_RIGHT_1.filename, Texture.class);
+		manager.load(Assets.CLOUD_RIGHT_2.filename, Texture.class);
+		manager.finishLoading();
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class CloudJumper extends Game {
 	public void dispose () {
 		screen.dispose();
 		batch.dispose();
-		TextureManager.dispose();
+		manager.dispose();
 		AnimationManager.dispose();
 		AudioManager.dispose();
 	}
@@ -66,5 +67,9 @@ public class CloudJumper extends Game {
 
 	public OrthographicCamera getCam() {
 		return cam;
+	}
+
+	public AssetManager getManager() {
+		return manager;
 	}
 }

@@ -2,11 +2,11 @@ package com.cloudjumper.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.cloudjumper.game.utils.TextureManager;
 import com.cloudjumper.game.view.Assets;
 
 public class Player extends Entity {
@@ -37,10 +37,10 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public void render(float delta, Batch batch) {
+	public void render(float delta, Batch batch, AssetManager manager) {
 		Rectangle shape = (Rectangle)body.getUserData();
 
-		batch.draw(TextureManager.getTexture(asset.ordinal()), shape.x, shape.y);
+		batch.draw(manager.get(asset.filename, Texture.class), shape.x, shape.y);
 	}
 
 	public Body getBody() {
