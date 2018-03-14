@@ -63,25 +63,6 @@ public class LevelGenerator {
 		Rectangle cloudBoundingBox = new Rectangle(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, width * Constants.TILE_SIZE, Constants.TILE_SIZE);
 		cloudBody.setUserData(cloudBoundingBox);
 
-		Rectangle playerBoundingBox = (Rectangle)cloudBody.getUserData();
-
-		world.setContactFilter(new ContactFilter() {
-			@Override
-			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-				Fixture platformFixture = cloudBody.getFixtureList().first();
-				Fixture playerFixture = player.getBody().getFixtureList().first();
-				player.getBody().getFixtureList().first();
-				if ((fixtureA == platformFixture && fixtureB == playerFixture) || (fixtureB == platformFixture && fixtureA == playerFixture)) {
-					Vector2 position = player.getBody().getPosition();
-					if (position.y < cloudBoundingBox.y + cloudBoundingBox.height/2 + playerBoundingBox.height - 3.0f * 0.005f)
-						return false;
-					else
-						return true;
-				} else
-					return true;
-			}
-		});
-
 		return cloudBody;
 	}
 }
