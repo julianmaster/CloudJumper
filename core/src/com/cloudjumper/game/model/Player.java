@@ -17,13 +17,18 @@ import com.cloudjumper.game.view.Assets;
 public class Player extends Entity {
 
 	private Body body;
-	private Animation idle;
 
+	private Animation idle;
+	private Animation run;
+
+	private Animation currentAnimation;
 	private float stateTime;
 
 	public Player(Body body, AnimationManager animationManager) {
 		this.body = body;
 		this.idle = animationManager.get(Assets.PLAYER_IDLE.filename);
+		this.run = animationManager.get(Assets.PLAYER_RUN.filename);
+		this.currentAnimation = idle;
 		stateTime = 0f;
 	}
 
@@ -32,9 +37,14 @@ public class Player extends Entity {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			horizontalForce -= 1;
+			currentAnimation = run;
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			horizontalForce += 1;
+			currentAnimation = run;
+		}
+		else {
+			currentAnimation = idle;
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
@@ -49,7 +59,7 @@ public class Player extends Entity {
 		stateTime += delta;
 		Rectangle shape = (Rectangle)body.getUserData();
 		Vector2 position = body.getPosition();
-		TextureRegion currentFrame = (TextureRegion)idle.getKeyFrame(stateTime, true);
+		TextureRegion currentFrame = (TextureRegion)currentAnimation.getKeyFrame(stateTime, true);
 		batch.draw(currentFrame, position.x * Constants.PPM - Constants.X_OFFSET_PLAYER, position.y * Constants.PPM - Constants.Y_OFFSET_PLAYER);
 	}
 

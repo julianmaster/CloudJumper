@@ -7,7 +7,9 @@ public enum Assets {
 	CLOUD_MIDDLE_2("cloudmiddle2.png"),
 	CLOUD_RIGHT_1("cloudright1.png"),
 	CLOUD_RIGHT_2("cloudright2.png"),
-	PLAYER_IDLE("playeridle.png");
+	PLAYER_IDLE("playeridle.png"),
+	PLAYER_RUN("playerrun.png");
+
 
 	public String filename;
 

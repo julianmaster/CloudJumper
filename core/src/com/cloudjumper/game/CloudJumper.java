@@ -41,9 +41,11 @@ public class CloudJumper extends Game {
 		assetManager.load(Assets.CLOUD_RIGHT_1.filename, Texture.class);
 		assetManager.load(Assets.CLOUD_RIGHT_2.filename, Texture.class);
 		assetManager.load(Assets.PLAYER_IDLE.filename, Texture.class);
+		assetManager.load(Assets.PLAYER_RUN.filename, Texture.class);
 		assetManager.finishLoading();
 
 		animationManager.load(Assets.PLAYER_IDLE.filename, assetManager.get(Assets.PLAYER_IDLE.filename), 0.800f, Constants.TILE_SIZE, Constants.TILE_SIZE);
+		animationManager.load(Assets.PLAYER_RUN.filename, assetManager.get(Assets.PLAYER_RUN.filename), 0.070f, Constants.TILE_SIZE, Constants.TILE_SIZE);
 	}
 
 	@Override
