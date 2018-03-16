@@ -19,11 +19,12 @@ public class Cloud extends Entity {
         this.assets = assets;
     }
 
-    public void render(float delta, Batch batch, AssetManager manager) {
+    @Override
+    public void render(float delta, Batch batch, AssetManager assetManager) {
         Rectangle shape = (Rectangle)body.getUserData();
 
         for(int i = 0; i < shape.width / Constants.TILE_SIZE; i++) {
-            batch.draw(manager.get(assets.get(i).filename, Texture.class), shape.x + i * Constants.TILE_SIZE, shape.y);
+            batch.draw(assetManager.get(assets.get(i).filename, Texture.class), shape.x + i * Constants.TILE_SIZE, shape.y);
         }
     }
 

@@ -4,19 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.cloudjumper.game.Constants;
+import com.cloudjumper.game.utils.AnimationManager;
 import com.cloudjumper.game.view.Assets;
 
 public class Player extends Entity {
 
 	private Body body;
-	private Assets asset;
+	private Animation idle;
 
-	public Player(Body body, Assets asset) {
+	private float stateTime;
+
+	public Player(Body body, AnimationManager animationManager) {
 		this.body = body;
-		this.asset = asset;
+		this.idle = animationManager.get(Assets.PLAYER_IDLE.filename);
+		stateTime = 0f;
 	}
 
 	public void inputUpdate(float delta) {
@@ -37,10 +45,12 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public void render(float delta, Batch batch, AssetManager manager) {
+	public void render(float delta, Batch batch, AssetManager assetManager) {
+		stateTime += delta;
 		Rectangle shape = (Rectangle)body.getUserData();
-
-		batch.draw(manager.get(asset.filename, Texture.class), shape.x, shape.y);
+		Vector2 position = body.getPosition();
+		TextureRegion currentFrame = (TextureRegion)idle.getKeyFrame(stateTime, true);
+		batch.draw(currentFrame, position.x * Constants.PPM - Constants.X_OFFSET_PLAYER, position.y * Constants.PPM - Constants.Y_OFFSET_PLAYER);
 	}
 
 	public Body getBody() {

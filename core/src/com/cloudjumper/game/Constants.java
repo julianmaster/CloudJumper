@@ -16,4 +16,7 @@ public class Constants {
 	public static final int BOTTOM_OFFSET_CLOUD = 2;
 	public static final int LEFT_OFFSET_CLOUD = 1;
 	public static final int RIGHT_OFFSET_CLOUD = 1;
+
+	public static final float X_OFFSET_PLAYER = TILE_SIZE / 2 - 0.5f;
+	public static final float Y_OFFSET_PLAYER = TILE_SIZE / 4;
 }

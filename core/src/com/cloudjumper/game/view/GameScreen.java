@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		world = new World(new Vector2(0, -9.8f), false);
-		player = new Player(EntityManager.createBox(64, 64, 5, 8, false, world), null);
+		player = new Player(EntityManager.createBox(64, 64, 5, 8, false, world), game.getAnimationManager());
 		level = LevelGenerator.generateLevel(world, player);
 
 		world.setContactFilter(new ContactFilter() {
@@ -79,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		Batch batch = game.getBatch();
-		AssetManager manager = game.getManager();
+		AssetManager assetManager = game.getAssetManager();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
 			showDebugPhysics = !showDebugPhysics;
@@ -98,9 +98,10 @@ public class GameScreen extends ScreenAdapter {
 
 		batch.begin();
 		if(showSprite) {
-			batch.draw(manager.get(Assets.BACKGROUND.filename, Texture.class), 0, 0);
+			batch.draw(assetManager.get(Assets.BACKGROUND.filename, Texture.class), 0, 0);
+			player.render(delta, batch, assetManager);
 			for(Cloud cloud : level.getClouds()) {
-				cloud.render(delta, batch, manager);
+				cloud.render(delta, batch, assetManager);
 			}
 		}
 		batch.end();

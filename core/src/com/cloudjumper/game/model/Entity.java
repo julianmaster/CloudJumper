@@ -7,5 +7,5 @@ import com.cloudjumper.game.view.Assets;
 
 public abstract class Entity {
 
-	public abstract void render(float delta, Batch batch, AssetManager manager);
+	public abstract void render(float delta, Batch batch, AssetManager assetManager);
 }

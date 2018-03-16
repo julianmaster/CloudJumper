@@ -15,13 +15,15 @@ import com.cloudjumper.game.view.GameScreen;
 public class CloudJumper extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
-	private AssetManager manager;
+	private AssetManager assetManager;
+	private AnimationManager animationManager;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		cam = new OrthographicCamera(Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
-		manager = new AssetManager();
+		assetManager = new AssetManager();
+		animationManager = new AnimationManager();
 
 		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0f);
 		cam.update();
@@ -32,13 +34,16 @@ public class CloudJumper extends Game {
 	}
 
 	private void load() {
-		manager.load(Assets.BACKGROUND.filename, Texture.class);
-		manager.load(Assets.CLOUD_LEFT.filename, Texture.class);
-		manager.load(Assets.CLOUD_MIDDLE_1.filename, Texture.class);
-		manager.load(Assets.CLOUD_MIDDLE_2.filename, Texture.class);
-		manager.load(Assets.CLOUD_RIGHT_1.filename, Texture.class);
-		manager.load(Assets.CLOUD_RIGHT_2.filename, Texture.class);
-		manager.finishLoading();
+		assetManager.load(Assets.BACKGROUND.filename, Texture.class);
+		assetManager.load(Assets.CLOUD_LEFT.filename, Texture.class);
+		assetManager.load(Assets.CLOUD_MIDDLE_1.filename, Texture.class);
+		assetManager.load(Assets.CLOUD_MIDDLE_2.filename, Texture.class);
+		assetManager.load(Assets.CLOUD_RIGHT_1.filename, Texture.class);
+		assetManager.load(Assets.CLOUD_RIGHT_2.filename, Texture.class);
+		assetManager.load(Assets.PLAYER_IDLE.filename, Texture.class);
+		assetManager.finishLoading();
+
+		animationManager.load(Assets.PLAYER_IDLE.filename, assetManager.get(Assets.PLAYER_IDLE.filename), 0.800f, Constants.TILE_SIZE, Constants.TILE_SIZE);
 	}
 
 	@Override
@@ -56,8 +61,7 @@ public class CloudJumper extends Game {
 	public void dispose () {
 		screen.dispose();
 		batch.dispose();
-		manager.dispose();
-		AnimationManager.dispose();
+		assetManager.dispose();
 		AudioManager.dispose();
 	}
 
@@ -69,7 +73,11 @@ public class CloudJumper extends Game {
 		return cam;
 	}
 
-	public AssetManager getManager() {
-		return manager;
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public AnimationManager getAnimationManager() {
+		return animationManager;
 	}
 }
