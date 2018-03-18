@@ -45,11 +45,15 @@ public class Player extends Entity {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			horizontalForce -= 1;
-			currentAnimation = run;
+			if(currentAnimation != jump && currentAnimation != fall && currentAnimation != land) {
+				currentAnimation = run;
+			}
 		}
 		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			horizontalForce += 1;
-			currentAnimation = run;
+			if(currentAnimation != jump && currentAnimation != fall && currentAnimation != land) {
+				currentAnimation = run;
+			}
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
@@ -61,20 +65,15 @@ public class Player extends Entity {
 		if(body.getLinearVelocity().y > 0.2) {
 			currentAnimation = jump;
 		}
-		else if(body.getLinearVelocity().y < 0.2 && currentAnimation == jump || currentAnimation == run) {
+		else if(body.getLinearVelocity().y < 0.2 && currentAnimation == jump) {
 			stateTime = 0f;
 			currentAnimation = fall;
 		}
-		else if(body.getLinearVelocity().y == 0 && currentAnimation == fall || currentAnimation == run) {
+		else if(body.getLinearVelocity().y == 0 && currentAnimation == fall) {
 			stateTime = 0f;
 			currentAnimation = land;
 			isJump = false;
 		}
-
-		System.out.println(!isJump);
-		System.out.println(horizontalForce == 0);
-		System.out.println((currentAnimation == land ? currentAnimation.isAnimationFinished(stateTime) : true));
-		System.out.println("-----");
 
 		if(!isJump && horizontalForce == 0 && (currentAnimation == land ? currentAnimation.isAnimationFinished(stateTime) : true)) {
 			currentAnimation = idle;
