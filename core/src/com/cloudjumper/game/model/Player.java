@@ -20,35 +20,64 @@ public class Player extends Entity {
 
 	private Animation idle;
 	private Animation run;
+	private Animation jump;
+	private Animation fall;
+	private Animation land;
 
 	private Animation currentAnimation;
 	private float stateTime;
+	private boolean isJump = false;
+	private int horizontalForce;
 
 	public Player(Body body, AnimationManager animationManager) {
 		this.body = body;
 		this.idle = animationManager.get(Assets.PLAYER_IDLE.filename);
 		this.run = animationManager.get(Assets.PLAYER_RUN.filename);
+		this.jump = animationManager.get(Assets.PLAYER_JUMP.filename);
+		this.fall = animationManager.get(Assets.PLAYER_FALL.filename);
+		this.land = animationManager.get(Assets.PLAYER_LAND.filename);
 		this.currentAnimation = idle;
 		stateTime = 0f;
 	}
 
 	public void inputUpdate(float delta) {
-		int horizontalForce = 0;
+		horizontalForce = 0;
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			horizontalForce -= 1;
 			currentAnimation = run;
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			horizontalForce += 1;
 			currentAnimation = run;
-		}
-		else {
-			currentAnimation = idle;
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 			body.applyForceToCenter(0, 50, false);
+			stateTime = 0f;
+			isJump = true;
+		}
+
+		if(body.getLinearVelocity().y > 0.2) {
+			currentAnimation = jump;
+		}
+		else if(body.getLinearVelocity().y < 0.2 && currentAnimation == jump || currentAnimation == run) {
+			stateTime = 0f;
+			currentAnimation = fall;
+		}
+		else if(body.getLinearVelocity().y == 0 && currentAnimation == fall || currentAnimation == run) {
+			stateTime = 0f;
+			currentAnimation = land;
+			isJump = false;
+		}
+
+		System.out.println(!isJump);
+		System.out.println(horizontalForce == 0);
+		System.out.println((currentAnimation == land ? currentAnimation.isAnimationFinished(stateTime) : true));
+		System.out.println("-----");
+
+		if(!isJump && horizontalForce == 0 && (currentAnimation == land ? currentAnimation.isAnimationFinished(stateTime) : true)) {
+			currentAnimation = idle;
 		}
 
 		body.setLinearVelocity(horizontalForce * 3, body.getLinearVelocity().y);
@@ -59,7 +88,14 @@ public class Player extends Entity {
 		stateTime += delta;
 		Rectangle shape = (Rectangle)body.getUserData();
 		Vector2 position = body.getPosition();
-		TextureRegion currentFrame = (TextureRegion)currentAnimation.getKeyFrame(stateTime, true);
+		boolean looping = currentAnimation == run || currentAnimation == idle;
+		TextureRegion currentFrame = (TextureRegion)currentAnimation.getKeyFrame(stateTime, looping);
+		if(horizontalForce == -1 && !currentFrame.isFlipX()) {
+			currentFrame.flip(horizontalForce == -1, false);
+		}
+		else if(horizontalForce != -1 && currentFrame.isFlipX()) {
+			currentFrame.flip(horizontalForce != -1, false);
+		}
 		batch.draw(currentFrame, position.x * Constants.PPM - Constants.X_OFFSET_PLAYER, position.y * Constants.PPM - Constants.Y_OFFSET_PLAYER);
 	}
 

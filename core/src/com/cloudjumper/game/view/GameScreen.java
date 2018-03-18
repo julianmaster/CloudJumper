@@ -99,10 +99,10 @@ public class GameScreen extends ScreenAdapter {
 		batch.begin();
 		if(showSprite) {
 			batch.draw(assetManager.get(Assets.BACKGROUND.filename, Texture.class), 0, 0);
-			player.render(delta, batch, assetManager);
 			for(Cloud cloud : level.getClouds()) {
 				cloud.render(delta, batch, assetManager);
 			}
+			player.render(delta, batch, assetManager);
 		}
 		batch.end();
 
