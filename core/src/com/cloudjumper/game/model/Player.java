@@ -45,13 +45,13 @@ public class Player extends Entity {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			horizontalForce -= 1;
-			if(currentAnimation != jump && currentAnimation != fall && currentAnimation != land) {
+			if(!isJump) {
 				currentAnimation = run;
 			}
 		}
 		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			horizontalForce += 1;
-			if(currentAnimation != jump && currentAnimation != fall && currentAnimation != land) {
+			if(!isJump) {
 				currentAnimation = run;
 			}
 		}
